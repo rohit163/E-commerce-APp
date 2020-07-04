@@ -5,6 +5,8 @@ import { connect } from 'react-redux';
 
 import './App.css';
 
+
+
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
@@ -13,7 +15,7 @@ import CheckoutPage from './pages/checkout/checkout.component';
 import Header from './components/header/header.component';
 import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import { setCurrentUser } from './redux/user/user.actions';
-import { selectCurrentUser } from  './redux/user/user.selectors';
+import { selectCurrentUser } from './redux/user/user.selectors';
 
 
 
@@ -23,6 +25,7 @@ class App extends React.Component {
 
   componentDidMount() {
     const { setCurrentUser } = this.props;
+
     this.unsubscriberFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth);
@@ -34,9 +37,9 @@ class App extends React.Component {
         });
 
       }
-      else {
-        setCurrentUser(userAuth);
-      }
+
+      setCurrentUser(userAuth);
+
     }
 
     );
@@ -68,11 +71,11 @@ class App extends React.Component {
     );
   }
 }
-const maoStateToProps = createStructuredSelector ({
+const maoStateToProps = createStructuredSelector({
   currentUser: selectCurrentUser,
-})
+});
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user))
-})
+}); 
 
 export default connect(maoStateToProps, mapDispatchToProps)(App);
